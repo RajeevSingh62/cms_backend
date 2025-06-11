@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
-// const  testRoutes = require('./routes/testRoutes');
+const  testRoutes = require('./routes/testRoutes');
 // Load environment variables
 dotenv.config();
 
@@ -22,7 +22,7 @@ app.use(express.json());
 
 
 // test Routes
-// app.use('/api/test', testRoutes);
+app.use('/api', testRoutes);
  
 
 
