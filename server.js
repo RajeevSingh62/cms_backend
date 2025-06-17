@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const  testRoutes = require('./routes/testRoutes');
+const postRoutes = require('./routes/postRoutes');
+
 // Load environment variables
 dotenv.config();
 
@@ -14,6 +16,8 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+
+app.use('/api/posts', postRoutes);
 
 // test Routes
 // app.get('/', (req, res) => {
