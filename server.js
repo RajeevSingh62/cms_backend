@@ -18,6 +18,12 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/posts', postRoutes);
+console.log("api key in cloudinary Key:", process.env.CLOUDINARY_API_KEY);
+console.log("api key in cloudinary name:", process.env.CLOUDINARY_CLOUD_NAME);
+console.log("api key in cloudinary secret:", process.env.CLOUDINARY_API_SECRET);
+
+
+  
 
 // test Routes
 // app.get('/', (req, res) => {

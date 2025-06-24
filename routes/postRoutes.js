@@ -5,8 +5,9 @@ const {createPost, getAllPosts, getPostById, updatePost,deletePost} = require('.
 const upload = require('../middlewares/uploadMiddleware');
 const router = express.Router();
 
-// Post routesrouter.post('/posts', createPost);
-router.post('/posts',  createPost);
+// Post routesrouter.post('/posts',upload.single('image') createPost);
+router.post('/posts', upload.single('image'), createPost);
+
 router.get('/allposts', getAllPosts);
 router.get('/posts/:id', getPostById);
 router.put('/posts/:id', updatePost);

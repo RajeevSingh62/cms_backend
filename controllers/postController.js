@@ -1,23 +1,31 @@
 const Post=require('../models/Post');
 
 exports.createPost=async(req,res)=>{
-const { title, content, status } = req.body;
+const { title, content, status,author } = req.body;
 
 try {
   const imageUrl = req.file ? req.file.path : '';
+  console.log("image url ",imageUrl)
   const newPost=await Post.create({
 title,
 content,
-// author,
+author,
 status,
  image: imageUrl,
- author: req.user._id,
+//  author: req.user._id,
   });
      res.status(201).json(newPost);
     
-} catch (error) {
-    res.status(500).json({ message: 'Post creation failed', error: error.message})
 }
+
+catch (error) {
+  console.error('Upload error:', error); // ✅ log detailed error in terminal
+  res.status(500).json({
+    message: 'Post creation failed',
+    error: error.message || 'Unknown error',
+  });
+}
+
 
 };
 
