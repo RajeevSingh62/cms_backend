@@ -1,7 +1,8 @@
 const Post=require('../models/Post');
-
+const User=require('../models/UserModel')
+const sendEmail=require('../utils/sendEmail')
 exports.createPost=async(req,res)=>{
-const { title, content, status } = req.body;
+const { title, content, status ,category } = req.body;
 
 try {
   const imageUrl = req.file ? req.file.path : '';
@@ -12,9 +13,26 @@ content,
 author:req.user._id ,
 status,
  image: imageUrl,
+ category 
 
   });
-     res.status(201).json(newPost);
+// send email logic to admin and user created it is here 
+
+const user=await User.findById(req.user._id );
+const subject=`New Blog created :${title}`
+ const text='here is blog created '
+
+// send email to admin aswell as author created it 
+
+await sendEmail([process.env.ADMIN_EMAIL, user.email],subject,text)
+
+
+
+     res.status(201)
+     .json({
+        success:true,
+        data:newPost
+     });
     
 }
 
@@ -32,8 +50,12 @@ catch (error) {
 exports.getAllPosts=async(req,res)=>{
 
     try {
-        const posts=await Post.find().populate('author', 'Username email');
-        res.status(200).json(posts);
+        const posts=await Post.find().populate('author', 'Username email').populate('category','name');
+        res.status(200)
+        .json({
+        success:true,
+        data:posts
+     });
         
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch posts', error: error.message });
