@@ -1,7 +1,7 @@
 const Post=require('../models/Post');
 
 exports.createPost=async(req,res)=>{
-const { title, content, status,author } = req.body;
+const { title, content, status } = req.body;
 
 try {
   const imageUrl = req.file ? req.file.path : '';
@@ -9,10 +9,10 @@ try {
   const newPost=await Post.create({
 title,
 content,
-author,
+author:req.user._id ,
 status,
  image: imageUrl,
-//  author: req.user._id,
+
   });
      res.status(201).json(newPost);
     
@@ -32,7 +32,7 @@ catch (error) {
 exports.getAllPosts=async(req,res)=>{
 
     try {
-        const posts=await Post.find().populate('author', 'name email');
+        const posts=await Post.find().populate('author', 'Username email');
         res.status(200).json(posts);
         
     } catch (error) {

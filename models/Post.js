@@ -6,6 +6,7 @@ const postSchema=mongoose.Schema({
   image: { type: String }, // Cloudinary image URL
   status: { type: String, enum: ['draft', 'published'], default: 'draft' },
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  category:{type:mongoose.Schema.Types.ObjectId,ref:'Category'}
 }, { timestamps: true });
 
 module.exports=mongoose.model('Post',postSchema)
