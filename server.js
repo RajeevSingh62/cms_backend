@@ -6,7 +6,7 @@ const  testRoutes = require('./routes/testRoutes');
 const postRoutes = require('./routes/postRoutes');
 const categoriesRoutes=require('./routes/CategoryRoutes');
 const headerRoutes = require('./routes/headerRoutes');
-
+const carousal= require('./routes/carousalRoutes');
 // Load environment variables
 dotenv.config();
 
@@ -43,6 +43,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/categories',categoriesRoutes)
 app.use('/api/headers', headerRoutes);
+app.use('/api/carousal', carousal);
 
 // Start server
 const PORT = process.env.PORT || 5000;

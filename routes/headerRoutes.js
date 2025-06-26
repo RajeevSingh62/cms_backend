@@ -3,7 +3,7 @@ const router = express.Router();
 const {getHeaders,createHeader}=require('../controllers/headerController')
 
 router.post('/createHeader', createHeader);
-router.get('/getHeaders', getHeaders);
+router.get('/getHeader', getHeaders);
 
 
 

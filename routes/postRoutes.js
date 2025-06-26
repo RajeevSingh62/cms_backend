@@ -10,6 +10,7 @@ router.post('/posts',protect, upload.single('image'), createPost);
 
 router.get('/allposts', getAllPosts);
 router.get('/posts/:id', getPostById);
+
 router.put('/posts/:id', updatePost);
  router.delete('/posts/:id', deletePost); 
 

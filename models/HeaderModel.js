@@ -1,18 +1,25 @@
 const mongoose = require("mongoose");
 
-const headerSchema=new mongoose.Schema({
+const headerSchema = new mongoose.Schema({
 
-label:{},
-path:{},
-icon:{},
-order:{},  //// sorting order
+    links: [
+        {
+            label: { type: String, required: true },
+            path: { type: String, required: true }
+        }
+    ],
+  
+    icon: {},
+    order: {type: Number, default: 0},  //// sorting order
+    backgroundColor: { type: String, default: "#ffffff" },
+    textColor: { type: String, default: "#000000" },
 
-isVisible:{type:Boolean,default:true}, //// toggle visibility
+    isVisible: { type: Boolean, default: true }, //// toggle visibility
 
 
 
 
-},{timestamps:true})
+}, { timestamps: true })
 
 
-module.exports=mongoose.model("Header",headerSchema);
+module.exports = mongoose.model("Header", headerSchema);
