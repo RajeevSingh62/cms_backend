@@ -1,25 +1,31 @@
 const nodemailer = require('nodemailer');
 
-
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail', // or any other like Mailtrap, etc.
+// Main function to send email
+const sendEmail = async ({ to, subject, text, html }) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
     auth: {
-        user: process.env.SMTP_EMAIL,
-        pass: process.env.SMTP_PASSWORD,
+      user: process.env.SMTP_EMAIL,
+      pass: process.env.SMTP_PASSWORD,
     },
-});
+  });
 
-const mailOptions = {
+  const mailOptions = {
     from: `"My CMS" <${process.env.SMTP_EMAIL}>`,
     to,
     subject,
     text,
-    // html, // if i want to send html in email then use it .
+    html, // optional — include if sending HTML content
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: ' + info.response);
+    return info;
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
 };
-
-
-await transporter.sendMail(mailOptions);
-    
 
 module.exports = sendEmail;

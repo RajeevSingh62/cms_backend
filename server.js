@@ -4,7 +4,8 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const  testRoutes = require('./routes/testRoutes');
 const postRoutes = require('./routes/postRoutes');
-const categoriesRoutes=require('./routes/CategoryRoutes')
+const categoriesRoutes=require('./routes/CategoryRoutes');
+const headerRoutes = require('./routes/headerRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -19,9 +20,9 @@ const app = express();
 app.use(express.json());
 
 
-console.log("api key in cloudinary Key:", process.env.CLOUDINARY_API_KEY);
-console.log("api key in cloudinary name:", process.env.CLOUDINARY_CLOUD_NAME);
-console.log("api key in cloudinary secret:", process.env.CLOUDINARY_API_SECRET);
+// console.log("api key in cloudinary Key:", process.env.CLOUDINARY_API_KEY);
+// console.log("api key in cloudinary name:", process.env.CLOUDINARY_CLOUD_NAME);
+// console.log("api key in cloudinary secret:", process.env.CLOUDINARY_API_SECRET);
 
 
   
@@ -41,6 +42,7 @@ app.use('/api', testRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/categories',categoriesRoutes)
+app.use('/api/headers', headerRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
