@@ -25,6 +25,11 @@ exports.getAdminDashboardData = async (req, res) => {
       },
     ]);
 
+    const userByRole = {};
+    usersByRoleAggregation.forEach((item) => {
+      userByRole[item._id] = item.count;
+    })
+
     res.status(200).json({
       sucess: true,
       data: {
@@ -33,7 +38,7 @@ exports.getAdminDashboardData = async (req, res) => {
         recentUser,
 
         recentBlogs,
-        usersByRoleAggregation,
+        userByRole,
       },
     });
   } catch (error) {
