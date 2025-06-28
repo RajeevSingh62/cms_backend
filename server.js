@@ -8,6 +8,9 @@ const categoriesRoutes=require('./routes/CategoryRoutes');
 const headerRoutes = require('./routes/headerRoutes');
 const carousal= require('./routes/carousalRoutes');
 const adminDashRoutes = require('./routes/adminDashRoutes');
+const cors = require('cors');
+const http = require("http");
+const socketIo = require("socket.io");
 
 // Load environment variables
 dotenv.config();
@@ -17,6 +20,29 @@ connectDB();
 
 // Initialize app
 const app = express();
+const server = http.createServer(app);
+// Initialize Socket.IO
+const io = socketIo(server, {
+  cors: {
+    origin: "*", // allow all origins (for now)
+  }
+});
+// Handle Socket.IO connections
+// Store connected admins (you’ll refine this later)
+let adminSocket = null;
+
+io.on("connection", (socket) => {
+  console.log("New client connected");
+  socket.on("registerAdmin", () => {
+    adminSocket = socket;
+    console.log("Admin registered for notifications");
+  });
+  socket.on("disconnect", () => {
+    if (socket === adminSocket) adminSocket = null;
+    console.log("Client disconnected");
+  });
+});
+app.set("io", io);
 
 // Middleware
 app.use(express.json());
@@ -50,4 +76,7 @@ app.use('/api/admin', adminDashRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+

@@ -17,25 +17,33 @@ exports.createPost = async (req, res) => {
       image: imageUrl,
       category,
     });
-    console.log("Admin Email:", process.env.ADMIN_EMAIL);
+    // console.log("Admin Email:", process.env.ADMIN_EMAIL);
    
     // send email logic to admin and user created it is here
 
-    const user = await User.findById(req.user._id);
-    console.log("User Email:", user?.email);
-    const subject = `New Blog created :${title}`;
-    const text = "here is blog created ";
+    // const user = await User.findById(req.user._id);
+    // // console.log("User Email:", user?.email);
+    // const subject = `New Blog created :${title}`;
+    // const text = "here is blog created ";
 
     // send email to admin aswell as author created it
 
  
-    await sendEmail(
+  //   await sendEmail(
       
       
-   {  to: [process.env.ADMIN_EMAIL, user?.email],
-      subject,
-      text}
-    )
+  //  {  to: [process.env.ADMIN_EMAIL, user?.email],
+  //     subject,
+  //     text}
+  //   )
+
+    // Emit real-time notification to admin
+    const io = req.app.get("io");
+    io.emit("new_blog_created", {
+      title: newPost.title,
+      author: req.user.Username,
+      createdAt: newPost.createdAt
+    });
 
     res.status(201).json({
       success: true,
@@ -55,6 +63,9 @@ exports.getAllPosts = async (req, res) => {
     const posts = await Post.find()
       .populate("author", "Username email")
       .populate("category", "name");
+
+
+
     res.status(200).json({
       success: true,
       data: posts,
