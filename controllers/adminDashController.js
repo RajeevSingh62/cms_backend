@@ -10,7 +10,7 @@ exports.getAdminDashboardData = async (req, res) => {
     const recentUser = await User.find()
       .sort({ createdAt: -1 })
       .limit(5)
-      .select("Username email createdAt");
+      .select("username email createdAt");
     const recentBlogs = await Post.find()
       .sort({ createdAt: -1 })
       .limit(5)

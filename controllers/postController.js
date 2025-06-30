@@ -41,7 +41,7 @@ exports.createPost = async (req, res) => {
     const io = req.app.get("io");
     io.emit("new_blog_created", {
       title: newPost.title,
-      author: req.user.Username,
+      author: req.user.username,
       createdAt: newPost.createdAt
     });
 
@@ -61,7 +61,7 @@ exports.createPost = async (req, res) => {
 exports.getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("author", "Username email")
+      .populate("author", "username email")
       .populate("category", "name");
 
 

@@ -6,6 +6,7 @@ const generateToken = require('../utils/generateToken');
 exports.registerUser = async (req, res) => {
     const{username,email,password,role}=req.body;
     try {
+
         // Check if user already exists
         const existingUser = await User.findOne({email})    
         if(existingUser) {
@@ -14,11 +15,14 @@ exports.registerUser = async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
         // Create new user
+        const imageUrl = req.file ? req.file.path : "";
+         console.log("image url ", imageUrl);
         const user = new User({
-            Username: username,
+            username: username,
             email,
             password: hashedPassword,
-            role
+            role,
+            avatar: imageUrl
         });
         // Save user to the database
         const savedUser = await user.save();
@@ -27,10 +31,11 @@ exports.registerUser = async (req, res) => {
         // Respond with user data and token
         res.status(201).json({
             _id: savedUser._id,
-            Username: savedUser.Username,
+            username: savedUser.username,
             email: savedUser.email,
             role: savedUser.role,
-            token
+            token,
+            avatar: savedUser.avatar
         });
 
         
